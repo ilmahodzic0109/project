@@ -42,4 +42,8 @@ testem.log
 Thumbs.db
 frontend/node_modules
 
+.vs/
+bin/
+obj/
+node_modules/
 

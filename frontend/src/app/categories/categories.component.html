@@ -1,0 +1,154 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Category</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <ul class="breadcrumb-nav">
+                    <li><a href="/homepage">Home</a></li>
+                    <li>Category</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+<!-- Start Category -->
+<section class="category-page section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12">
+                <div class="category-sidebar">
+                    <!-- Start Single Widget -->
+                    <div class="single-widget search">
+                        <h3>Search By Brands</h3>
+                        <form (submit)="updateSearchTerm()">
+                            <input type="text" [(ngModel)]="filters.brandName" name="brandName" placeholder="Search for items...">
+                            <button type="submit"><i class="lni lni-search-alt"></i></button>
+                        </form>                        
+                    </div>
+                    <!-- End Single Widget -->
+
+                    <!-- Start Single Widget -->
+                    <div class="single-widget">
+                        <h3>Gender</h3>
+                        <ul class="list">
+                            <li>
+                                <a href="javascript:void(0)" (click)="changeCategoryFilter(false)" [ngClass]="{'highlighted': filters.category === false}">
+                                   Men’s Sunglasses
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" (click)="changeCategoryFilter(true)" [ngClass]="{'highlighted': filters.category === true}">
+                                   Women’s Sunglasses
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Filter by Price Range -->
+                    <div class="single-widget">
+                        <h3>Price Range</h3>
+                        <ul class="list">
+                            <li>
+                                <a href="javascript:void(0)" (click)="changePriceRangeFilter(50, 150)" [ngClass]="{'highlighted': filters.minPrice === 50 && filters.maxPrice === 150}">
+                                   50-150
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" (click)="changePriceRangeFilter(150, 300)" [ngClass]="{'highlighted': filters.minPrice === 150 && filters.maxPrice === 300}">
+                                   150-300
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" (click)="changePriceRangeFilter(300, 1000)" [ngClass]="{'highlighted': filters.minPrice === 300 && filters.maxPrice === 1000}">
+                                   300+
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Filter by Condition -->
+                    <div class="single-widget">
+                        <h3>Condition</h3>
+                        <ul class="list">
+                            <li>
+                                <a href="javascript:void(0)" (click)="changeConditionFilter(true)" [ngClass]="{'highlighted': filters.condition === true}">
+                                   New
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" (click)="changeConditionFilter(false)" [ngClass]="{'highlighted': filters.condition === false}">
+                                   Used
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-8 col-12" style="padding: 15px;">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                    <div class="sort-by w-100 w-md-auto">
+                        <label for="sortOptions" class="me-2">Sort By:</label>
+                        <select id="sortOptions" class="form-select" [(ngModel)]="filters.sortBy" (change)="updateSortOrder()">
+                          <option value="0">Alphabet (A-Z)</option>
+                          <option value="1">Alphabet (Z-A)</option>
+                          <option value="2">Price: Low to High</option>
+                          <option value="3">Price: High to Low</option>
+                          <option value="4">Estimated Delivery Time (Low to High)</option>
+                          <option value="5">Estimated Delivery Time (High to Low)</option>
+                        </select>
+                        <div class="add-product-btn ms-12"> 
+                            <a *ngIf="isAdmin()" href="/add-product" class="btn btn-primary">
+                                <i class="fa fa-plus" style="color: white;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row g-3">
+                    <app-item-categories
+                        [currentPage]="currentPage"
+                        [category]="filters.category"
+                        [minPrice]="filters.minPrice"
+                        [maxPrice]="filters.maxPrice"
+                        [condition]="filters.condition"
+                        [sortBy]="filters.sortBy"
+                        [brandName]="filters.brandName"
+                        [products]="products">
+                    </app-item-categories>
+                </div>
+
+               
+                <div *ngIf="noResultsFound" class="alert alert-warning">
+                  No products found with the selected filters.
+                </div>
+
+                <div class="pagination left mt-4">
+                    <ul class="pagination-list">
+                      
+                      <li *ngFor="let page of [].constructor(totalPages); let i = index">
+                        <a href="javascript:void(0)" (click)="changePage(i + 1)" [ngClass]="{'active': currentPage === (i + 1)}">
+                          {{ i + 1 }}
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="add-product-btnn ms-12"> 
+                        <a *ngIf="isAdmin()" href="/add-product" class="btn btn-primary">
+                            <i class="fa fa-plus" style="color: white;"></i>
+                        </a>
+                    </div>
+                  </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Category -->
